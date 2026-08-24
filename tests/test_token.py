@@ -4,8 +4,10 @@ from django_auth_external import TokenConfig, generate_token, validate_token
 from django_auth_external.exceptions import MissingClaim, TokenExpired, TokenInvalid
 
 
+_SECRET = "test-secret-key-with-enough-length-for-hs256"
+
 CONFIG = TokenConfig(
-    secret_key="test-secret",
+    secret_key=_SECRET,
     claims=["user_id", "email"],
     subject_claim="user_id",
     token_ttl_seconds=3600,
@@ -32,7 +34,7 @@ def test_generate_token_raises_on_missing_claim():
 def test_validate_token_raises_on_invalid_signature():
     token = generate_token({"user_id": "abc", "email": "x@y.com"}, CONFIG)
     bad_config = TokenConfig(
-        secret_key="wrong-secret",
+        secret_key="wrong-secret-key-with-enough-length-for-hs256",
         claims=["user_id", "email"],
         subject_claim="user_id",
         token_ttl_seconds=3600,
@@ -43,7 +45,7 @@ def test_validate_token_raises_on_invalid_signature():
 
 def test_validate_token_raises_on_expired():
     expired_config = TokenConfig(
-        secret_key="test-secret",
+        secret_key=_SECRET,
         claims=["user_id", "email"],
         subject_claim="user_id",
         token_ttl_seconds=-1,
