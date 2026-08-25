@@ -1,6 +1,6 @@
 [project]
 name = "django-auth-external"
-version = "0.1.0"
+version = "0.1.1"
 description = "JWT token generation and validation for Django"
 readme = "README.md"
 requires-python = ">=3.12"
